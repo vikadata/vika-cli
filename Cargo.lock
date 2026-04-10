@@ -1381,17 +1381,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "06abde3611657adf66d383f00b093d7faecc7fa57071cce2578660c9f1010821"
 
 [[package]]
-name = "vika-cli"
-version = "0.1.1"
-dependencies = [
- "anyhow",
- "clap",
- "serde_json",
- "tokio",
- "vika-sdk",
-]
-
-[[package]]
 name = "vika-sdk"
 version = "0.1.1"
 dependencies = [
@@ -1401,6 +1390,17 @@ dependencies = [
  "serde_json",
  "thiserror 1.0.69",
  "tokio",
+]
+
+[[package]]
+name = "vikacli"
+version = "0.1.1"
+dependencies = [
+ "anyhow",
+ "clap",
+ "serde_json",
+ "tokio",
+ "vika-sdk",
 ]
 
 [[package]]
