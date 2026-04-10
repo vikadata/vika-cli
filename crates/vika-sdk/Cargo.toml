@@ -1,0 +1,22 @@
+[package]
+name = "vika-sdk"
+description = "Rust SDK for Vika (vikadata) API"
+keywords = ["vika", "vikadata", "datasheet", "api"]
+categories = ["api-bindings", "web-programming"]
+readme = "README.md"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+reqwest = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true }
+mockito = "1"

@@ -1,0 +1,22 @@
+[package]
+name = "vika-cli"
+description = "CLI for Vika (vikadata) API — designed for AI agents"
+keywords = ["vika", "vikadata", "cli", "ai-agent"]
+categories = ["command-line-utilities"]
+default-run = "vika"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "vika"
+path = "src/main.rs"
+
+[dependencies]
+vika-sdk = { path = "../vika-sdk" }
+clap = { workspace = true }
+tokio = { workspace = true }
+serde_json = { workspace = true }
+anyhow = { workspace = true }
