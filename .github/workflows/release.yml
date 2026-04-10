@@ -73,11 +73,11 @@ jobs:
 
       - name: Build (native)
         if: "!matrix.cross"
-        run: cargo build -p vika-cli --release --target ${{ matrix.target }}
+        run: cargo build -p vikacli --release --target ${{ matrix.target }}
 
       - name: Build (cross)
         if: matrix.cross
-        run: cross build -p vika-cli --release --target ${{ matrix.target }}
+        run: cross build -p vikacli --release --target ${{ matrix.target }}
 
       - name: Rename binary (unix)
         if: matrix.os != 'windows-latest'
