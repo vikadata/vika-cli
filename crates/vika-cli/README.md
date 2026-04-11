@@ -62,27 +62,39 @@ vika records list <datasheet_id> --compact | jq '.records[0]'
 
 ## For AI Agents
 
-Paste into your agent's system prompt:
+Add `vika` as a shell tool in your agent framework, then give the agent this context:
 
 ```
-You have access to the `vika` CLI for reading and writing Vika spreadsheets.
-All commands output JSON. VIKA_TOKEN is already set.
+Tool: vika
+Description: Read and write data in Vika (vikadata) spreadsheets. All output is JSON.
+Usage: vika <command> [options]
 
-Key concepts: Space (spcXxx), Datasheet (dstXxx), Record (recXxx), Field, View (viwXxx)
+Key concepts:
+- Space (spcXxx): workspace containing nodes
+- Datasheet (dstXxx): spreadsheet with records, fields, and views
+- Record (recXxx): a row
+- Field: a column (Title, Status, Date, etc.)
+- View (viwXxx): filtered/sorted perspective on a datasheet
 
-Workflow:
-1. vika spaces list
-2. vika nodes search <spc_id> --node-type Datasheet --query "<name>"
-3. vika fields list <dst_id>
-4. vika records list <dst_id> --view-id <viw_id>
-5. vika records create <dst_id> --data '[{"fields":{"Title":"value"}}]'
+Available commands:
+  vika spaces list
+  vika nodes list <space_id>
+  vika nodes search <space_id> --node-type Datasheet --query "<name>"
+  vika nodes get <space_id> <node_id>
+  vika records list <datasheet_id> [--view-id <id>] [--filter '<formula>'] [--page-size <n>]
+  vika records create <datasheet_id> --data '[{"fields":{"Title":"value"}}]'
+  vika records update <datasheet_id> --data '[{"recordId":"recXxx","fields":{"Title":"new"}}]'
+  vika records delete <datasheet_id> --ids recXxx,recYyy
+  vika fields list <datasheet_id>
+  vika views list <datasheet_id>
 
-Tips:
-- Always run `vika fields list` before writing to know exact field names
+Rules:
+- Always run `vika fields list <dst_id>` before creating/updating records
 - Field names are case-sensitive
 - recordId is required for updates — get it from `records list`
 - Max 10 records per create/update/delete call
 - Use --compact for programmatic output
+- Filter syntax: --filter '{FieldName}="value"'
 ```
 
 ## Rust SDK
