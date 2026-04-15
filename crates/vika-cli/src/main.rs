@@ -14,6 +14,10 @@ struct Cli {
     #[arg(long, env = "VIKA_HOST", global = true, default_value = "https://vika.cn")]
     host: String,
 
+    /// User agent (defaults to vika-sdk-rust/0.1.0)
+    #[arg(long, env = "VIKA_USER_AGENT", global = true, default_value = "vika-sdk-rust/0.1.0")]
+    user_agent: String,
+
     /// Output compact JSON instead of pretty-printed
     #[arg(long, global = true)]
     compact: bool,
@@ -150,7 +154,7 @@ enum NodesCmd {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use clap::Parser;
+    use clap::{CommandFactory, Parser};
 
     fn parse(args: &[&str]) -> Cli {
         Cli::parse_from(std::iter::once("vika").chain(args.iter().copied()))
@@ -242,6 +246,15 @@ mod tests {
     }
 
     #[test]
+    fn test_user_agent_help_shows_default() {
+        let mut cmd = Cli::command();
+        let help = cmd.render_long_help().to_string();
+
+        assert!(help.contains("--user-agent <USER_AGENT>"));
+        assert!(help.contains("[default: vika-sdk-rust/0.1.0]"));
+    }
+
+    #[test]
     fn test_fields_create() {
         let cli = parse(&["--token", "tok", "fields", "create",
             "--space-id", "spcXxx", "--datasheet-id", "dstXxx",
@@ -276,7 +289,7 @@ async fn main() -> Result<()> {
     let cli = Cli::parse();
 
     let token = cli.token.context("API token required: set VIKA_TOKEN or pass --token")?;
-    let client = VIkaClient::with_host(token, cli.host);
+    let client = VIkaClient::with_host_and_user_agent(token, cli.host, Some(cli.user_agent));
 
     let value = dispatch(&client, cli.command).await?;
 
