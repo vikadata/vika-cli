@@ -20,8 +20,13 @@ impl VIkaClient {
     }
 
     pub fn with_host(token: impl Into<String>, host: impl Into<String>) -> Self {
+        Self::with_host_and_user_agent(token, host, None)
+    }
+
+    pub fn with_host_and_user_agent(token: impl Into<String>, host: impl Into<String>, user_agent: Option<String>) -> Self {
+        let ua = user_agent.unwrap_or_else(|| "vika-sdk-rust/0.1.0".to_string());
         let http = Client::builder()
-            .user_agent("vika-sdk-rust/0.1.0")
+            .user_agent(ua)
             .build()
             .expect("failed to build HTTP client");
         Self {
